@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Iskandar Store</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .navbar { background: #ffffff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-size: 24px; font-weight: 700; color: #111827; }
+        .logo span { color: #2563eb; }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { font-weight: 500; color: #4b5563; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: #2563eb; font-weight: 600; }
+
+        .page-header { background: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 30px 0; text-align: center; }
+        .page-header h1 { font-size: 28px; color: #111827; }
+        .page-header p { color: #6b7280; margin-top: 6px; }
+
+        /* Category Filter Styles */
+        .category-filter { display: flex; justify-content: center; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
+        .filter-btn { background: white; border: 1px solid #d1d5db; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: 600; color: #4b5563; transition: all 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: #e2136e; color: white; border-color: #e2136e; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; margin-bottom: 60px; }
+        .product-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .product-image { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .product-details { padding: 16px; }
+        .product-category { font-size: 11px; color: #2563eb; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        .product-title { font-size: 16px; font-weight: 600; margin: 6px 0; color: #1f2937; }
+        .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+        .product-price { font-weight: 700; font-size: 18px; color: #111827; }
+        
+        .buy-now-btn { background: #e2136e; color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: background 0.2s; }
+        .buy-now-btn:hover { background: #c2105e; }
+
+        /* Modal / Pop-up Styling */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+        .modal-card { background: white; width: 100%; max-width: 450px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        .modal-header { background: #e2136e; color: white; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; font-weight: 600; }
+        .close-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+        
+        .modal-body { padding: 20px; }
+        .order-summary { background: #fdf2f8; border: 1px solid #fbcfe8; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
+        .order-summary strong { color: #e2136e; }
+
+        .bkash-info-box { background: #fff1f2; border-left: 4px solid #e2136e; padding: 10px 12px; font-size: 13px; margin-bottom: 16px; border-radius: 4px; }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #374151; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; outline: none; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #e2136e; }
+
+        .submit-btn { width: 100%; background: #e2136e; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .submit-btn:hover { background: #c2105e; }
+
+        .footer { background: #111827; color: #9ca3af; padding: 30px 0 20px; margin-top: 60px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Iskandar<span>Store</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Our Collection</h1>
+            <p>ক্যাটাগরি অনুযায়ী ফিল্টার করে আপনার প্রোডাক্ট বাছাই করুন</p>
+        </div>
+    </div>
+
+    <main class="container">
+
+        <!-- Category Buttons -->
+        <div class="category-filter">
+            <button class="filter-btn active" onclick="filterCategory('all', this)">All Products</button>
+            <button class="filter-btn" onclick="filterCategory('electronics', this)">Electronics</button>
+            <button class="filter-btn" onclick="filterCategory('accessories', this)">Accessories</button>
+            <button class="filter-btn" onclick="filterCategory('footwear', this)">Footwear</button>
+            <button class="filter-btn" onclick="filterCategory('fashion', this)">Fashion</button>
+        </div>
+
+        <div class="product-grid">
+
+            <!-- Electronics -->
+            <div class="product-card electronics">
+                <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQu6CpcgrunviFOuZ38-LU9qafHeZvuSpdFpQ6RlziCPaHENHKdQtjf-F-vLV_84SltMgziNAIeYy7SO4c" alt="Wireless Headphones" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Electronics</span>
+                    <h3 class="product-title">Wireless Headphones</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ১,৯৯০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Wireless Headphones', '১,৯৯০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card electronics">
+                <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcS-FHirq5JFj5IR3rC8xTvNOpJNHOK18uawkERRjVcLbFtf7QcM-VJ0xVhI2_cIJDpnaYgeEtUtGZ9k-B4" alt="Bluetooth Speaker" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Electronics</span>
+                    <h3 class="product-title">Bluetooth Speaker</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ১,৪৫০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Bluetooth Speaker', '১,৪৫০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card electronics">
+                <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop" alt="TWS Earbuds" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Electronics</span>
+                    <h3 class="product-title">ANC Wireless Earbuds</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ২,২০০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('ANC Wireless Earbuds', '২,২০০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accessories -->
+            <div class="product-card accessories">
+                <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSKLKq4p0Dlq9FoszAhPrE4MXAfphUIlOcGnzx8DZJ02Kf3O5ZjIX9YUe3DEH9Wkjk68QiKGzJyGSI9V2c" alt="Minimalist Watch" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Accessories</span>
+                    <h3 class="product-title">Minimalist Watch</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ২,৪৯০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Minimalist Watch', '২,৪৯০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card accessories">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop" alt="Smart Watch" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Accessories</span>
+                    <h3 class="product-title">Fitness Smartwatch</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ৩,২৯০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Fitness Smartwatch', '৩,২৯০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footwear -->
+            <div class="product-card footwear">
+                <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSb4piQXQ4QusrpDX2yPuG5TPQ0xlXnPRemOrZsf7Rg4bfsLRTWVFk3OyN1vbeLk11lVRev0dKn4vkWOFI" alt="Running Shoes" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Footwear</span>
+                    <h3 class="product-title">Running Shoes</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ৩,৫০০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Running Shoes', '৩,৫০০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card footwear">
+                <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=500&auto=format&fit=crop" alt="Casual Sneakers" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Footwear</span>
+                    <h3 class="product-title">Classic White Sneakers</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ২,৮০০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Classic White Sneakers', '২,৮০০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fashion -->
+            <div class="product-card fashion">
+                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop" alt="Cotton T-Shirt" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Fashion</span>
+                    <h3 class="product-title">Premium Cotton T-Shirt</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ৬৫০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Premium Cotton T-Shirt', '৬৫০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fashion">
+                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&auto=format&fit=crop" alt="Denim Jacket" class="product-image">
+                <div class="product-details">
+                    <span class="product-category">Fashion</span>
+                    <h3 class="product-title">Classic Denim Jacket</h3>
+                    <div class="product-bottom">
+                        <span class="product-price">৳ ২,৯৫০</span>
+                        <button class="buy-now-btn" onclick="openBuyModal('Classic Denim Jacket', '২,৯৫০')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- bKash Buy Modal -->
+    <div class="modal-overlay" id="buyModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>bKash দিয়ে সরাসরি অর্ডার করুন</h3>
+                <button class="close-btn" onclick="closeBuyModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary">
+                    <p>প্রোডাক্ট: <strong id="modalProductTitle">-</strong></p>
+                    <p>মূল্য: <strong id="modalProductPrice">-</strong> BDT</p>
+                </div>
+
+                <div class="bkash-info-box">
+                    <p><strong>bKash Personal:</strong> 01856726856</p>
+                    <p>উপরে উল্লেখিত নম্বরে <b>Send Money</b> করে নিচের ফর্মে TrxID দিন।</p>
+                </div>
+
+                <form onsubmit="handleOrderSubmit(event)">
+                    <div class="form-group">
+                        <label>আপনার নাম *</label>
+                        <input type="text" placeholder="পুরো নাম লিখুন" required>
+                    </div>
+                    <div class="form-group">
+                        <label>মোবাইল নম্বর *</label>
+                        <input type="tel" placeholder="017XXXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ডেলিভারি ঠিকানা *</label>
+                        <textarea rows="2" placeholder="আপনার সম্পূর্ণ ঠিকানা" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>যে bKash নম্বর থেকে টাকা পাঠিয়েছেন *</label>
+                        <input type="text" placeholder="018XXXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>bKash TrxID (ট্রানজেকশন আইডি) *</label>
+                        <input type="text" placeholder="যেমন: 9J76HG89" required>
+                    </div>
+                    <button type="submit" class="submit-btn">অর্ডার কনফার্ম করুন</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Iskandar Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Category Filter Functionality
+        function filterCategory(category, btnElement) {
+            let products = document.querySelectorAll('.product-card');
+            let buttons = document.querySelectorAll('.filter-btn');
+
+            // Active button highlight
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Show/Hide products based on category
+            products.forEach(product => {
+                if (category === 'all' || product.classList.contains(category)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal Functionality
+        function openBuyModal(title, price) {
+            document.getElementById('modalProductTitle').innerText = title;
+            document.getElementById('modalProductPrice').innerText = price;
+            document.getElementById('buyModal').style.display = 'flex';
+        }
+
+        function closeBuyModal() {
+            document.getElementById('buyModal').style.display = 'none';
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            alert('ধন্যবাদ! আপনার অর্ডারটি সফলভাবে গৃহীত হয়েছে। আমরা খুব শীঘ্রই আপনার বিকাশ পেমেন্ট ও অর্ডার যাচাই করে কনফার্ম করব।');
+            closeBuyModal();
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById('buyModal');
+            if (event.target == modal) {
+                closeBuyModal();
+            }
+        }
+    </script>
+</body>
+</html>
