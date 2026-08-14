@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deals & Offers - Rangunia E-Commerce Store</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .navbar { background: #ffffff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-size: 24px; font-weight: 700; color: #111827; }
+        .logo span { color: #2563eb; }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { font-weight: 500; color: #4b5563; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: #2563eb; font-weight: 600; }
+        .cart-btn { background: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; font-weight: 500; }
+
+        .page-header { background: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 40px 0; margin-bottom: 40px; text-align: center; }
+        .page-header h1 { font-size: 32px; color: #111827; }
+
+        .deals-banner {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white; padding: 50px; border-radius: 12px; text-align: center; margin-bottom: 40px;
+        }
+        .deals-banner h2 { font-size: 32px; margin-bottom: 10px; }
+        .deals-banner p { font-size: 18px; color: #e0e7ff; }
+
+        .footer { background: #111827; color: #9ca3af; padding: 40px 0 20px; margin-top: 80px; }
+        .footer-bottom { text-align: center; border-top: 1px solid #1f2937; padding-top: 20px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Online<span> শান্তির হাট</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="deals.html" class="active">Deals</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="#" class="cart-btn">Cart (0)</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Hot Deals & Offers</h1>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="deals-banner">
+            <h2>🔥 Mega Weekend Sale!</h2>
+            <p>সব ক্যাটাগরির নির্দিষ্ট কিছু পণ্যে পাচ্ছেন ১০% থেকে ৪০% পর্যন্ত বিশেষ মূল্যছাড়।</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Iskandar Hosen. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
